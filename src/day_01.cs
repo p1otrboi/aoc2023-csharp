@@ -30,7 +30,10 @@ class day_01
 
             if (matches.Count == 1)
             {
-                sum += int.Parse(matches[0].Value) ^ 2;
+                sb.Append(matches[0].Value);
+                sb.Append(matches[0].Value);
+                sum += int.Parse(sb.ToString());
+                sb.Clear();
                 continue;
             }
 
