@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -15,6 +14,7 @@ class day_01
     {
         string[] inputArray = File.ReadAllLines("./inputs/day1.txt");
         
+        // regex to match all digits
         var regex = new Regex(@"\d");
         var sb = new StringBuilder();
         int sum = 0;
@@ -28,6 +28,7 @@ class day_01
                 continue;
             }
 
+            // if there is only one match, we need to double it
             if (matches.Count == 1)
             {
                 sb.Append(matches[0].Value);
@@ -37,6 +38,7 @@ class day_01
                 continue;
             }
 
+            // if there are more than one match, we need to combine the first and last
             if (matches.Count > 1)
             {
                 sb.Append(matches[0].Value);
