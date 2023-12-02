@@ -21,9 +21,9 @@ public class Day_02
 
         foreach (string line in input)
         {
-            int red = 0;
-            int blue = 0;
-            int green = 0;
+            // int red = 0;
+            // int blue = 0;
+            // int green = 0;
 
 
         }
