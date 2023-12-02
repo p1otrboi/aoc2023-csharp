@@ -1,11 +1,16 @@
 ﻿// Entry point for the application
 
+using aoc2023_csharp.src;
+
 if (args.Length > 0)
 {
     switch (args[0])
     {
         case "1":
-            day_01.Run();
+            Day_01.Run();
+            break;
+        case "2":
+            Day_02.Run();
             break;
         default:
             Console.WriteLine("Something went wrong. Usage: dotnet run [day]");
