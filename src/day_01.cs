@@ -1,9 +1,7 @@
-namespace aoc2023_csharp.src;
-
 using System.Text;
 using System.Text.RegularExpressions;
-using Humanizer;
 
+namespace aoc2023_csharp.src;
 class Day_01
 {
     public static void Run()
@@ -58,12 +56,12 @@ class Day_01
     public static int Part2()
     {
         string[] inputArray = File.ReadAllLines("./inputs/day1.txt");
-        var regex = new Regex(@"\d|(one)|(two)|(three)|(four)|(five)|(six)|(seven)|(eight)|(nine)");
+        var regex = new Regex(@"(?=(\d|one|two|three|four|five|six|seven|eight|nine))");
         var stringBuilder = new StringBuilder();
 
         int sum = 0;
 
-        var numberTable = new Dictionary<string, int>
+        var numberMapping = new Dictionary<string, int>
         {
             {"one", 1},
             {"two", 2},
@@ -87,9 +85,9 @@ class Day_01
 
             if (regexMatches.Count == 1)
             {
-                var singleNumber = regexMatches[0].Value;
+                var singleNumber = regexMatches[0].Groups[1].Value;
 
-                if (numberTable.TryGetValue(singleNumber, out int value))
+                if (numberMapping.TryGetValue(singleNumber, out int value))
                 {
                     singleNumber = value.ToString();
                 }
@@ -102,14 +100,14 @@ class Day_01
 
             if (regexMatches.Count > 1)
             {
-                var firstNumber = regexMatches[0].Value;
-                var secondNumber = regexMatches[^1].Value;
+                var firstNumber = regexMatches[0].Groups[1].Value;
+                var secondNumber = regexMatches[^1].Groups[1].Value;
 
-                if (numberTable.TryGetValue(firstNumber, out int value1))
+                if (numberMapping.TryGetValue(firstNumber, out int value1))
                 {
                     firstNumber = value1.ToString();
                 }
-                if (numberTable.TryGetValue(secondNumber, out int value2))
+                if (numberMapping.TryGetValue(secondNumber, out int value2))
                 {
                     secondNumber = value2.ToString();
                 }
