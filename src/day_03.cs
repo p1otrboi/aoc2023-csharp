@@ -29,18 +29,41 @@ public class Day_03
             new(-1, -1)
         ];
 
-        var stringBuilder = new StringBuilder();
+        // Part 1
+        var stringBuilder1 = new StringBuilder();
         bool isPartNumber = false;
         int sumOfPartNumbers = 0;
+        
+        // Part 2
+        var stringBuilder2 = new StringBuilder();
+        var gears = new Dictionary<Point, List<int>>();
+        var connectedGears = new HashSet<Point>();
+        int sumOfGearRatios = 0;
 
         void checkPartNumber()
         {
             if (isPartNumber)
             {
-                sumOfPartNumbers += int.Parse(stringBuilder!.ToString());
+                sumOfPartNumbers += int.Parse(stringBuilder1!.ToString());
             }
-            stringBuilder.Clear();
+            stringBuilder1.Clear();
             isPartNumber = false;
+        }
+
+        void checkIfGear()
+        {
+            if (connectedGears.Count > 0)
+            {
+                foreach (var gear in connectedGears)
+                {
+                    if (!gears.ContainsKey(new Point(gear.X, gear.Y)))
+                    {
+                        gears[new Point(gear.X, gear.Y)] = [];
+                    }
+                    gears[new Point(gear.X, gear.Y)].Add(int.Parse(stringBuilder1!.ToString()));
+                }
+            }
+            connectedGears.Clear();
         }
 
         for (int y = 0; y < width; y++)
@@ -51,7 +74,7 @@ public class Day_03
 
                 if (char.IsDigit(character))
                 {
-                    stringBuilder.Append(character);
+                    stringBuilder1.Append(character);
 
                     foreach (var direction in directions)
                     {
@@ -68,16 +91,30 @@ public class Day_03
                         {
                             isPartNumber = true;
                         }
+                        if (newCharacter == '*')
+                        {
+                            connectedGears.Add(new Point(newX, newY));
+                        }
                     }
                 }
                 else
                 {
+                    checkIfGear();
                     checkPartNumber();
                 }
             }
+            checkIfGear();
             checkPartNumber();
         }
+
+        foreach (var (point, numbers) in gears)
+        {
+            if (numbers.Count == 2)
+            {
+                sumOfGearRatios += numbers[0] * numbers[1];
+            }
+        }
         
-        return $"Day 03, Part 1: {sumOfPartNumbers}";
+        return $"Day 03, Part 1: {sumOfPartNumbers} Part 2: {sumOfGearRatios}";
     }
 }
