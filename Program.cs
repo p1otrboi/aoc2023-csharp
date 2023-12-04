@@ -12,6 +12,9 @@ if (args.Length > 0)
         case "2":
             Day_02.Run();
             break;
+        case "3":
+            Day_03.Run();
+            break;
         default:
             Console.WriteLine("Something went wrong. Usage: dotnet run [day]");
             break;
