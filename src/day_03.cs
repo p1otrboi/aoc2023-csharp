@@ -30,12 +30,11 @@ public class Day_03
         ];
 
         // Part 1
-        var stringBuilder1 = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         bool isPartNumber = false;
         int sumOfPartNumbers = 0;
         
         // Part 2
-        var stringBuilder2 = new StringBuilder();
         var gears = new Dictionary<Point, List<int>>();
         var connectedGears = new HashSet<Point>();
         int sumOfGearRatios = 0;
@@ -44,9 +43,9 @@ public class Day_03
         {
             if (isPartNumber)
             {
-                sumOfPartNumbers += int.Parse(stringBuilder1!.ToString());
+                sumOfPartNumbers += int.Parse(stringBuilder!.ToString());
             }
-            stringBuilder1.Clear();
+            stringBuilder.Clear();
             isPartNumber = false;
         }
 
@@ -60,7 +59,7 @@ public class Day_03
                     {
                         gears[new Point(gear.X, gear.Y)] = [];
                     }
-                    gears[new Point(gear.X, gear.Y)].Add(int.Parse(stringBuilder1!.ToString()));
+                    gears[new Point(gear.X, gear.Y)].Add(int.Parse(stringBuilder!.ToString()));
                 }
             }
             connectedGears.Clear();
@@ -74,7 +73,7 @@ public class Day_03
 
                 if (char.IsDigit(character))
                 {
-                    stringBuilder1.Append(character);
+                    stringBuilder.Append(character);
 
                     foreach (var direction in directions)
                     {
