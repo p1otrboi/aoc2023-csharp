@@ -8,12 +8,11 @@ public class Day_02
     public static void Run()
     {
         Console.WriteLine("Day 2");
-        Console.WriteLine("Part 1: " + Part1());
-        Console.WriteLine("Part 2: " + Part2());
+        Console.WriteLine(Part1and2());
     }
 
 
-    public static int Part1()
+    public static string Part1and2()
     {
         // Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
 
@@ -21,6 +20,7 @@ public class Day_02
         var regex = new Regex(@"\d+");
 
         int sumOfGameIds = 0;
+        var sumOfPower = 0;
 
         foreach (string line in inputArray)
         {
@@ -72,14 +72,10 @@ public class Day_02
             {
                 sumOfGameIds += gameId;
             }
+
+            sumOfPower += maxRedCubes * maxGreenCubes * maxBlueCubes;
         }
 
-        return sumOfGameIds;
+        return $"Part 1:{sumOfGameIds} Part 2:{sumOfPower}";
     }
-
-    public static int Part2()
-    {
-        return 0;
-    }
-    
 }
