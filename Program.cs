@@ -18,6 +18,9 @@ if (args.Length > 0)
         case "4":
             Day_04.Run();
             break;
+        case "5":
+            Day_05.Run();
+            break;
         default:
             Console.WriteLine("Something went wrong. Usage: dotnet run [day]");
             break;
