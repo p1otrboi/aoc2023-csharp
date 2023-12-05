@@ -11,7 +11,7 @@ namespace aoc2023_csharp.src
 
         public static string Part1()
         {
-            string[] input = File.ReadAllLines("inputs/sample.txt");
+            string[] input = File.ReadAllLines("inputs/day5.txt");
             var regex = new Regex(@"\d+");
             int group = 0;
             var groupedInput = input
@@ -21,14 +21,14 @@ namespace aoc2023_csharp.src
                 .ToArray();
 
             long[] seeds = regex.Matches(input[0]).Select(x => long.Parse(x.Value)).ToArray();
-            var seedToSoil = new Dictionary<long, long>();
-            var soilToFertilizer = new Dictionary<long, long>();
-            var fertilizerToWater = new Dictionary<long, long>();
-            var waterToLight = new Dictionary<long, long>();
-            var lightToTemperature = new Dictionary<long, long>();
-            var temperatureToHumidity = new Dictionary<long, long>();
-            var humidityToLocation = new Dictionary<long, long>();
-            List<Dictionary<long, long>> map = [seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation];
+            var seedToSoil = new List<Tuple<long, long, long>>();
+            var soilToFertilizer = new List<Tuple<long, long, long>>();
+            var fertilizerToWater = new List<Tuple<long, long, long>>();
+            var waterToLight = new List<Tuple<long, long, long>>();
+            var lightToTemperature = new List<Tuple<long, long, long>>();
+            var temperatureToHumidity = new List<Tuple<long, long, long>>();
+            var humidityToLocation = new List<Tuple<long, long, long>>();
+            List<List<Tuple<long, long, long>>> map = [seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation];
 
             // Populate the map
             for (int i = 1; i < groupedInput.Length; i++)
@@ -44,36 +44,36 @@ namespace aoc2023_csharp.src
                     long destination = long.Parse(split[0]);
                     long source = long.Parse(split[1]);
                     long range = long.Parse(split[2]);
-                    
-                    for (long j = destination; j < destination + range; j++)
-                    {
-                        map[i - 1].Add(source++, j);
-                    }
+
+                    map[i - 1].Add(new Tuple<long, long, long>(destination, source, range));
                 }
             }
 
+            static long ProcessMap(long seed, List<Tuple<long, long, long>> map)
+            {
+                foreach (var mapEntry in map)
+                {
+                    if (seed >= mapEntry.Item2 && seed < mapEntry.Item2 + mapEntry.Item3)
+                    {
+                        return mapEntry.Item1 + (seed - mapEntry.Item2);
+                    }
+                }
+                return seed;
+            }
+
             // Find the lowest location number that corresponds to any of the initial seed numbers
-            long lowestLocation = 0;
+            long lowestLocation = long.MaxValue;
             foreach (var seed in seeds)
             {
-                var currentNumber = seed;
-                if (seedToSoil.ContainsKey(seed))
-                    currentNumber = seedToSoil[seed];
-                if (soilToFertilizer.ContainsKey(currentNumber))
-                    currentNumber = soilToFertilizer[currentNumber];
-                if (fertilizerToWater.ContainsKey(currentNumber))
-                    currentNumber = fertilizerToWater[currentNumber];
-                if (waterToLight.ContainsKey(currentNumber))
-                    currentNumber = waterToLight[currentNumber];
-                if (lightToTemperature.ContainsKey(currentNumber))
-                    currentNumber = lightToTemperature[currentNumber];
-                if (temperatureToHumidity.ContainsKey(currentNumber))
-                    currentNumber = temperatureToHumidity[currentNumber];
-                if (humidityToLocation.ContainsKey(currentNumber))
-                    currentNumber = humidityToLocation[currentNumber];
-                
-                if (lowestLocation == 0 || currentNumber < lowestLocation)
-                    lowestLocation = currentNumber;
+                long currentSeed = seed;
+                currentSeed = ProcessMap(currentSeed, seedToSoil);
+                currentSeed = ProcessMap(currentSeed, soilToFertilizer);
+                currentSeed = ProcessMap(currentSeed, fertilizerToWater);
+                currentSeed = ProcessMap(currentSeed, waterToLight);
+                currentSeed = ProcessMap(currentSeed, lightToTemperature);
+                currentSeed = ProcessMap(currentSeed, temperatureToHumidity);
+                currentSeed = ProcessMap(currentSeed, humidityToLocation);
+                lowestLocation = Math.Min(lowestLocation, currentSeed);
             }
 
             return $"Day 5, Part 1: {lowestLocation}";
