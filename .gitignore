@@ -3,6 +3,8 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+./inputs/*.txt
+
 # dotenv files
 .env
 
